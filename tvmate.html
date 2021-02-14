@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+     body{
+        background-image: linear-gradient(to right,rgb(152, 196, 209) , rgb(174, 212, 166));
+        border : 2px solid black;
+        border-radius: 12px;
+        
+     }
+     .container{
+
+         background-color:cornsilk;
+         max-width:40rem;
+         /* max-height: 40rem; */
+     }
+     label{
+         font-size: large;
+         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+     }
+
+#summary{
+
+    font-family: cursive;
+    font-size: medium;
+}
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="form">
+        <div class="row text-center">
+            <div class="col-offset-sm-2 col-sm-4 col-12 mt-2">
+                <label for="getname">  Show Name</label>
+
+           <input type="text" id="getname" placeholder="Enter show name"  class="form-control mt-2" >
+           <button type="button" class="btn btn-primary mt-2" onclick="getdata()"> submit </button>
+
+             <div class="">
+            <label for=""> Show name</label>
+            <input type="text" id="showname" class="form-control mb-2" >
+
+            <label for=""> Show Id</label>
+            <input type="text" id="showid" class="form-control mt-2" >
+
+            
+            <label for=""> Show Langauge</label>
+            <input type="text" id="showlang" class="form-control mt-2" >
+
+            <label for=""> Show genres</label>
+            <input type="text" id="showgenres" class="form-control mt-2" >
+
+            <label for=""> Show premiered</label>
+            <input type="text" id="showpre" class="form-control mt-2" >
+
+            <label for=""> Show Schedule</label>
+            <input type="text" id="showschedule" class="form-control mt-2" >
+
+            <label for=""> Show Country</label>
+            <input type="text" id="country" class="form-control mt-2" >
+
+            
+        </div>
+            </div>
+        <div class="col-sm-6 col-12 mt-2">
+            <label for=""> Summary</label>
+            <p id="summary"> </p>
+           
+             
+            <img id="showimg"/>
+</div>
+           
+        
+    </div>
+    </div>
+    </div>
+
+
+    <script>
+          function getdata(){
+              let input = document.getElementById("getname").value;
+               return showresult(input);
+          }
+
+         async function showresult(input){
+
+            let result = await fetch("https://api.tvmaze.com/singlesearch/shows?q="+input);
+            let data = await result.json();
+            console.log(result);
+            console.log(data);
+
+            document.querySelector("#showname").value = data.name;
+            document.querySelector("#showname").disabled = true
+            document.querySelector("#showid").value = data.id;
+            document.querySelector("#showid").disabled = true
+            document.querySelector("#showlang").value = data.language;
+            document.querySelector("#showlang").disabled = true
+            document.querySelector("#showgenres").value = data.genres;
+            document.querySelector("#showgenres").disabled = true
+            document.querySelector("#showpre").value = data.premiered;
+            document.querySelector("#showpre").disabled = true
+            document.querySelector("#showschedule").value = data.schedule.days +''+ data.schedule.time ;
+            document.querySelector("#showschedule").disabled = true
+            document.querySelector("#country").value = data.network.country.name;
+            document.querySelector("#country").disabled = true
+            document.querySelector("#summary").innerHTML = data.summary;
+            document.querySelector("#showimg").src = data.image.medium;
+           
+           
+         }
+
+    </script>
+</body>
+</html>
